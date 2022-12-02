@@ -2,22 +2,24 @@
 std::c++ command line paramter analyse
 
 命令行参数分析程序.
-本来原来只有一个头文件cmdline.h, 所有函数都在cmdline 命名空间下，
-但代码不宜阅读.
-所以我把它拆分成3个文件 cast.h  parser.h  reader.h, 
-去除了namespace 套用namespace
-class 套用 class
-好处是ctags, taglist 都认识它们了，方便了阅读分析
+  本来原来只有一个头文件cmdline.h, 所有函数都在cmdline 命名空间下，
+  但代码不宜阅读.
+  所以我把它拆分成3个文件 cast.h  parser.h  reader.h, 
+  去除了namespace 套用namespace
+  class 套用 class
+  好处是ctags, taglist 都认识它们了，方便了阅读分析
 
-想合成一个文件也容易，把3个文件copy到一起就可以了
-想用cmdline 命名空间也可以,用namespace cmdline 包围所有代码就可以了.
+  想合成一个文件也容易，把3个文件copy到一起就可以了
+  想用cmdline 命名空间也可以,用namespace cmdline 包围所有代码就可以了.
 
-此处保留了分开的形式
+  此处保留了分开的形式
 
-同时给出了一个用法实例. main.cpp
-及工程文件. qt 工程
+  同时给出了一个用法实例. main.cpp
+  及工程文件. qt 工程
 
 运行结果:
+
+```
  ./cmdline 
 usage: ./cmdline --epgfile=string --video-directory=string --defaultvideo=string --reqfile=string --outurl=string --outurl2=string [options] ... 
 options:
@@ -41,3 +43,4 @@ options:
       --videopid           videopid (string [=2001])
       --providor           providor (string [=EASYCOM])
   -?, --help               print this message
+  ```
