@@ -169,11 +169,13 @@ class option_with_value_with_reader : public option_with_value<T>
 				const T def,
 				const std::string &desc,
 				F reader)
-			: option_with_value<T>(name, short_name, need, def, desc), reader(reader){
-			}
+			: option_with_value<T>(name, short_name, need, def, desc), reader(reader)
+		{
+		}
 
 	private:
-		T read(const std::string &s){
+		T read(const std::string &s)
+		{
 			return reader(s);
 		}
 

@@ -19,7 +19,7 @@ struct range_reader
 	range_reader(const T &low, const T &high): low(low), high(high) {} //range_reader 的构造函数
 	T operator()(const std::string &s) const {
 		T ret=default_reader<T>()(s);
-		if (!(ret>=low && ret<=high)) throw cmdline_error("range_error"); //返回T 类型或者抛出异常
+		if (!(ret>=low && ret<=high)) throw cmdline_error("range_error"); //返回T 值或者抛出异常
 		return ret;
 	}
 	private:
@@ -27,7 +27,7 @@ struct range_reader
 };
 
 	template <class T>
-range_reader<T> range(const T &low, const T &high) //定义一个函数range,返回range_reader 类对象
+range_reader<T> range(const T &low, const T &high) //定义一个函数range,返回range_reader<T> 类对象
 {
 	return range_reader<T>(low, high);
 }
@@ -42,7 +42,7 @@ struct oneof_reader{	//定义oneof_reader 结构，
 	}
 	void add(const T &v){ alt.push_back(v); } //定义add 操作函数，为向vector中push_back
 	private:
-	std::vector<T> alt;
+	std::vector<T> alt; //包含std::vector<T> 集合
 };
 
 	template <class T>

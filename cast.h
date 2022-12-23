@@ -40,9 +40,9 @@ namespace CAST
 		class lexical_cast_t<std::string, Source, false>{ //Source 转 string
 			public:
 				static std::string cast(const Source &arg){
-					std::ostringstream ss;
-					ss<<arg;
-					return ss.str(); //将Source 转换为str
+					std::ostringstream oss;
+					oss<<arg;
+					return oss.str(); //将Source 转换为str
 				}
 		};
 
@@ -51,8 +51,8 @@ namespace CAST
 			public:
 				static Target cast(const std::string &arg){
 					Target ret;
-					std::istringstream ss(arg);
-					if (!(ss>>ret && ss.eof()))	//将string 转换为Target 类型
+					std::istringstream iss(arg);
+					if (!(iss>>ret && iss.eof()))	//将string 转换为Target 类型
 						throw std::bad_cast();
 					return ret;
 				}
@@ -87,7 +87,7 @@ namespace CAST
 	template <class T>
 		std::string default_value(T def)
 		{
-			return CAST::lexical_cast<std::string>(def); //返回一个string 值
+			return CAST::lexical_cast<std::string>(def); //返回一个string 值, 等同于lexical_cast<str::string,T>
 		}
 
 

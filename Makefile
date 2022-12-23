@@ -14,9 +14,9 @@ EQ            = =
 
 CC            = gcc
 CXX           = g++
-DEFINES       = -DQT_NO_DEBUG -DQT_GUI_LIB -DQT_CORE_LIB
-CFLAGS        = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
-CXXFLAGS      = -pipe -O2 -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
+DEFINES       = -DQT_GUI_LIB -DQT_CORE_LIB
+CFLAGS        = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
+CXXFLAGS      = -pipe -g -Wall -Wextra -D_REENTRANT -fPIC $(DEFINES)
 INCPATH       = -I. -I. -I/opt/Qt5.14.0/5.14.0/gcc_64/include -I/opt/Qt5.14.0/5.14.0/gcc_64/include/QtGui -I/opt/Qt5.14.0/5.14.0/gcc_64/include/QtCore -I. -isystem /usr/include/libdrm -I/opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/linux-g++
 QMAKE         = /opt/bin/qmake
 DEL_FILE      = rm -f
@@ -39,7 +39,7 @@ COMPRESS      = gzip -9f
 DISTNAME      = cmdline1.0.0
 DISTDIR = /home/hjj/test/cmdline/.tmp/cmdline1.0.0
 LINK          = g++
-LFLAGS        = -Wl,-O1 -Wl,-rpath,/opt/Qt5.14.0/5.14.0/gcc_64/lib
+LFLAGS        = -Wl,-rpath,/opt/Qt5.14.0/5.14.0/gcc_64/lib
 LIBS          = $(SUBLIBS) /opt/Qt5.14.0/5.14.0/gcc_64/lib/libQt5Gui.so /opt/Qt5.14.0/5.14.0/gcc_64/lib/libQt5Core.so -lGL -lpthread   
 AR            = ar cqs
 RANLIB        = 
@@ -230,6 +230,7 @@ DIST          = /opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/lex.prf \
 		cmdline.pro cast.h \
+		myexception.h \
 		option.h \
 		parser.h \
 		reader.h main.cpp
@@ -612,7 +613,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents cast.h option.h parser.h reader.h $(DISTDIR)/
+	$(COPY_FILE) --parents cast.h myexception.h option.h parser.h reader.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp $(DISTDIR)/
 
 
@@ -643,7 +644,7 @@ compiler_moc_predefs_make_all: moc_predefs.h
 compiler_moc_predefs_clean:
 	-$(DEL_FILE) moc_predefs.h
 moc_predefs.h: /opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/data/dummy.cpp
-	g++ -pipe -O2 -Wall -Wextra -dM -E -o moc_predefs.h /opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/data/dummy.cpp
+	g++ -pipe -g -Wall -Wextra -dM -E -o moc_predefs.h /opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/data/dummy.cpp
 
 compiler_moc_header_make_all:
 compiler_moc_header_clean:
@@ -663,6 +664,7 @@ compiler_clean: compiler_moc_predefs_clean
 
 main.o: main.cpp parser.h \
 		cast.h \
+		myexception.h \
 		reader.h \
 		option.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp

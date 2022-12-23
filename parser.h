@@ -146,7 +146,7 @@ class parser
 			if (prog_name=="")
 				prog_name=argv[0];
 
-			std::map<char, std::string> lookup;
+			std::map<char, std::string> lookup; //建立lookup 表
 			for (std::map<std::string, option_base*>::iterator p=options.begin(); p!=options.end(); p++)
 			{
 				if (p->first.length()==0) continue;
