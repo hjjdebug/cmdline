@@ -1,5 +1,7 @@
 #ifndef _OPTION_H
 #define _OPTION_H
+#include <string>
+#include "cast.h"
 class option_base
 {
 	public: //选项基类, 定义函数接口,访问方法
@@ -74,7 +76,7 @@ class option_without_value : public option_base  //无value 的选项
 };
 
 template <class T>
-class option_with_value : public option_base 	//带值的选项, 模板类
+class option_with_value : public option_base 	//带值的选项, 值的类型为T, 模板类
 {
 	public: //构造函数
 		option_with_value(const std::string &name,
@@ -179,7 +181,7 @@ class option_with_value_with_reader : public option_with_value<T>
 			return reader(s);
 		}
 
-		F reader;
+		F reader;	// 有一个对象reader
 };
 
 #endif

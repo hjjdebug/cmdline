@@ -1,13 +1,11 @@
 #ifndef _PARSER_H
 #define _PARSER_H
-#include <cstring>
+#include <string.h>
 #include <map>
 #include <vector>
-#include "cast.h"
 #include "myexception.h"
-#include "reader.h"
 #include "option.h"
-
+#include "reader.h"
 class parser
 {
 	public:
@@ -35,7 +33,7 @@ class parser
 					bool need=true,
 					const T def=T()) //添加有值选项
 			{
-				add(name, short_name, desc, need, def, default_reader<T>());
+				add(name, short_name, desc, need, def, default_reader<T>()); //default_reader<T>() 返回一个T类型变量
 			}
 
 		template <class T, class F>

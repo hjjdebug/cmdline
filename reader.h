@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 #include <string>
-#include "cast.h"
 #include "myexception.h"
 
 template <class T>
@@ -46,7 +45,7 @@ struct oneof_reader{	//定义oneof_reader 结构，
 };
 
 	template <class T>
-oneof_reader<T> oneof(T a1) //定义oneof 函数，定义oneof_read<T>对象， 向其加入一个变量a1
+oneof_reader<T> oneof(T a1) //定义oneof 函数，返回一个oneof_read<T>对象， 向其加入一个变量a1
 {
 	oneof_reader<T> ret;
 	ret.add(a1);
@@ -54,7 +53,7 @@ oneof_reader<T> oneof(T a1) //定义oneof 函数，定义oneof_read<T>对象， 
 }
 
 	template <class T>
-oneof_reader<T> oneof(T a1, T a2) //定义oneof 函数，定义oneof_read<T>对象， 向其加入n个变量a1, 2,3,4,5,6,7,8,9,10个变量
+oneof_reader<T> oneof(T a1, T a2) //定义oneof 函数，返回oneof_read<T>对象， 向其加入n个变量a1, 2,3,4,5,6,7,8,9,10个变量
 {
 	oneof_reader<T> ret;
 	ret.add(a1);
