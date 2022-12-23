@@ -1,6 +1,8 @@
 src.prj=$PWD CD=. filter="*.h *.cpp" {
- reader.h
  cast.h
+ myexception.h
+ option.h
  parser.h
+ reader.h
  main.cpp
 }

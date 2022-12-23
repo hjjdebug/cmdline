@@ -2,29 +2,24 @@
 #include <vector>
 #include <string>
 #include "cast.h"
-
-class cmdline_error : public std::exception { //定义cmdline_error 类
-	public:
-		cmdline_error(const std::string &msg): msg(msg){}
-		~cmdline_error() throw() {}
-		const char *what() const throw() { return msg.c_str(); }
-	private:
-		std::string msg;
-};
+#include "myexception.h"
 
 template <class T>
-struct default_reader{ //定义default_reader 结构
+struct default_reader
+{ //定义default_reader 结构
+	//default_reader 并没有this 指针，不包含任何成员变量，只有一个()操作函数，返回T 类型数值
 	T operator()(const std::string &str){ //其运算符()的意义为把string转换为T类型
 		return CAST::lexical_cast<T>(str);
 	}
 };
 
 template <class T>
-struct range_reader{ //定义模板类range_reader
-	range_reader(const T &low, const T &high): low(low), high(high) {}
+struct range_reader
+{ //定义模板类range_reader
+	range_reader(const T &low, const T &high): low(low), high(high) {} //range_reader 的构造函数
 	T operator()(const std::string &s) const {
 		T ret=default_reader<T>()(s);
-		if (!(ret>=low && ret<=high)) throw cmdline_error("range_error");
+		if (!(ret>=low && ret<=high)) throw cmdline_error("range_error"); //返回T 类型或者抛出异常
 		return ret;
 	}
 	private:
@@ -32,14 +27,14 @@ struct range_reader{ //定义模板类range_reader
 };
 
 	template <class T>
-range_reader<T> range(const T &low, const T &high) //定义一个函数,返回range_reader 类对象
+range_reader<T> range(const T &low, const T &high) //定义一个函数range,返回range_reader 类对象
 {
 	return range_reader<T>(low, high);
 }
 
 template <class T>
 struct oneof_reader{	//定义oneof_reader 结构，
-	T operator()(const std::string &s){ //定义其运算符()为将参数s转换为T,并在vector中查找，未找到抛出异常
+	T operator()(const std::string &s){ //定义其运算符()为将参数s转换为T,并在vector中查找，未找到抛出异常,找到返回T 的值
 		T ret=default_reader<T>()(s);
 		if (std::find(alt.begin(), alt.end(), ret)==alt.end())
 			throw cmdline_error("");
@@ -51,7 +46,7 @@ struct oneof_reader{	//定义oneof_reader 结构，
 };
 
 	template <class T>
-oneof_reader<T> oneof(T a1) //定义reader 的一种构造,向其传递一个参数
+oneof_reader<T> oneof(T a1) //定义oneof 函数，定义oneof_read<T>对象， 向其加入一个变量a1
 {
 	oneof_reader<T> ret;
 	ret.add(a1);
@@ -59,7 +54,7 @@ oneof_reader<T> oneof(T a1) //定义reader 的一种构造,向其传递一个参
 }
 
 	template <class T>
-oneof_reader<T> oneof(T a1, T a2) //定义reader 的一种构造,向其传递2,3,4,5,6,7,8,9,10个参数
+oneof_reader<T> oneof(T a1, T a2) //定义oneof 函数，定义oneof_read<T>对象， 向其加入n个变量a1, 2,3,4,5,6,7,8,9,10个变量
 {
 	oneof_reader<T> ret;
 	ret.add(a1);

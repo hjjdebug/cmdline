@@ -230,6 +230,7 @@ DIST          = /opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/spec_pre.prf \
 		/opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/yacc.prf \
 		/opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/lex.prf \
 		cmdline.pro cast.h \
+		option.h \
 		parser.h \
 		reader.h main.cpp
 QMAKE_TARGET  = cmdline
@@ -611,7 +612,7 @@ distdir: FORCE
 	@test -d $(DISTDIR) || mkdir -p $(DISTDIR)
 	$(COPY_FILE) --parents $(DIST) $(DISTDIR)/
 	$(COPY_FILE) --parents /opt/Qt5.14.0/5.14.0/gcc_64/mkspecs/features/data/dummy.cpp $(DISTDIR)/
-	$(COPY_FILE) --parents cast.h parser.h reader.h $(DISTDIR)/
+	$(COPY_FILE) --parents cast.h option.h parser.h reader.h $(DISTDIR)/
 	$(COPY_FILE) --parents main.cpp $(DISTDIR)/
 
 
@@ -662,7 +663,8 @@ compiler_clean: compiler_moc_predefs_clean
 
 main.o: main.cpp parser.h \
 		cast.h \
-		reader.h
+		reader.h \
+		option.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 ####### Install
