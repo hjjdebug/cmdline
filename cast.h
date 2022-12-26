@@ -87,7 +87,7 @@ namespace CAST
 	template <class T>
 		std::string default_value(T def)
 		{
-			return CAST::lexical_cast<std::string>(def); //返回一个string 值, 等同于lexical_cast<str::string,T>
+			return lexical_cast<std::string>(def); //返回一个string 值, 等同于lexical_cast<str::string,T>
 		}
 
 

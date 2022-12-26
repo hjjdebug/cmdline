@@ -19,19 +19,19 @@ class parser
 
 		void add(const std::string &name,
 				char short_name=0,
-				const std::string &desc="") //添加无值选项
+				const std::string &desc="") //添加无值选项, 只有help 是个无值选项，其它选项均有值
 		{
 			if (options.count(name)) throw cmdline_error("multiple definition: "+name);
 			options[name]=new option_without_value(name, short_name, desc);
 			ordered.push_back(options[name]);
 		}
 
-		template <class T>
+		template <class T>		//下面两个add 都是添加有值选项函数, 有值有reader
 			void add(const std::string &name,
 					char short_name=0,
 					const std::string &desc="",
 					bool need=true,
-					const T def=T()) //添加有值选项
+					const T def=T()) //添加有值选项, 
 			{
 				add(name, short_name, desc, need, def, default_reader<T>()); //default_reader<T>() 返回一个T类型变量
 			}
@@ -60,13 +60,13 @@ class parser
 		}
 
 		bool exist(const std::string &name) const {
-			if (options.count(name)==0) throw cmdline_error("there is no flag: --"+name);
+			if (options.count(name)==0) throw cmdline_error("there is no definition: --"+name);
 			return options.find(name)->second->has_set();
 		}
 
 		template <class T>
 			const T &get(const std::string &name) const {
-				if (options.count(name)==0) throw cmdline_error("there is no flag: --"+name);
+				if (options.count(name)==0) throw cmdline_error("there is no definition: --"+name);
 				const option_with_value<T> *p=dynamic_cast<const option_with_value<T>*>(options.find(name)->second);
 				if (p==NULL) throw cmdline_error("type mismatch flag '"+name+"'");
 				return p->get();
@@ -144,7 +144,7 @@ class parser
 			if (prog_name=="")
 				prog_name=argv[0];
 
-			std::map<char, std::string> lookup; //建立lookup 表
+			std::map<char, std::string> lookup; //建立lookup 表, lookup表是一个短选项(字符)到长选项(名称)的映射表
 			for (std::map<std::string, option_base*>::iterator p=options.begin(); p!=options.end(); p++)
 			{
 				if (p->first.length()==0) continue;
@@ -168,13 +168,13 @@ class parser
 					const char *p=strchr(argv[i]+2, '=');
 					if (p)
 					{
-						std::string name(argv[i]+2, p);
-						std::string val(p+1);
+						std::string name(argv[i]+2, p); //获取name 值
+						std::string val(p+1);		//获取val值
 						set_option(name, val);
 					}
 					else
 					{
-						std::string name(argv[i]+2);
+						std::string name(argv[i]+2); //获取name 值
 						if (options.count(name)==0)
 						{
 							errors.push_back("undefined option: --"+name);
@@ -190,19 +190,19 @@ class parser
 							else
 							{
 								i++;
-								set_option(name, argv[i]);
+								set_option(name, argv[i]); //为选项设置值
 							}
 						}
 						else
 						{
-							set_option(name);
+							set_option(name); //选项没有值，也要set 一下
 						}
 					}
 				}
 				else if (strncmp(argv[i], "-", 1)==0) //短选项
 				{
 					if (!argv[i][1]) continue;
-					char last=argv[i][1];
+					char last=argv[i][1];		// last 是一个短选项字符
 					for (int j=2; argv[i][j]; j++)
 					{
 						last=argv[i][j];
@@ -229,7 +229,7 @@ class parser
 
 					if (i+1<argc && options[lookup[last]]->has_value())
 					{
-						set_option(lookup[last], argv[i+1]);
+						set_option(lookup[last], argv[i+1]);	//lookup[last]是长选项名称,这个概念稍微难理解一点，看前面的建立过程
 						i++;
 					}
 					else

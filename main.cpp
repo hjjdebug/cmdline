@@ -55,28 +55,6 @@ int main(int argc, char **argv)
 	int onlyAudio = a.get<int>("onlyAudio");				//默认为0
 	string providor = a.get<string>("providor");
 
-	/* 下面不需要判断了,因为选项指定它们必须设置！,由check 保证
-	if(epgfile.empty()) {
-		printf("epgfile input needed~\n");
-		exit(-1);
-	}
-	if(defaultvideo.empty()) {
-		printf("default video file input needed~\n");
-		exit(-1);
-	}
-	if(ts_dir.empty()) {
-		printf("video files path input needed~\n");
-		exit(-1);
-	} 
-	if(outtype!="mpegts") {
-		printf("video type only support mpegts ~\n");
-		exit(-1);
-	}
-	if(outurl.empty()) {
-		printf("output url input needed~\n");
-		exit(-1);
-	}
-	*/
 	printf("logId:%d,readerid:%d,delay_time:%d,onlyAudio:%d\n",logId,readerid,delay_time,onlyAudio);
 
 	return 0;

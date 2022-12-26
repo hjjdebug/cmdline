@@ -103,7 +103,7 @@ class option_with_value : public option_base 	//带值的选项, 值的类型为
 
 		bool set(const std::string &value){ //把数值用参数传进来
 			try{
-				actual=read(value); //读取其值保存到actual, read 是类型T提供的read函数
+				actual=read(value); //读取其值保存到actual, read 是类型T提供的read函数,由继承类实现,后面只定义了虚接口
 				has=true;
 			}
 			catch(const std::exception &e){
@@ -138,14 +138,14 @@ class option_with_value : public option_base 	//带值的选项, 值的类型为
 		}
 
 		std::string short_description() const{
-			return "--"+nam+"="+CAST::readable_typename<T>(); // 名称加类型
+			return "--"+nam+"="+CAST::readable_typename<T>(); // 返回名称加类型
 		}
 
 	protected:
 		std::string full_description(const std::string &desc){
 			return
 				desc+" ("+CAST::readable_typename<T>()+
-				(need?"":" [="+CAST::default_value<T>(def)+"]")  // 描述加类型及默认值
+				(need?"":" [="+CAST::default_value<T>(def)+"]")  // 返回描述加类型及默认值
 				+")";
 		}
 
@@ -178,7 +178,7 @@ class option_with_value_with_reader : public option_with_value<T>
 	private:
 		T read(const std::string &s)
 		{
-			return reader(s);
+			return reader(s); //返回一个reader 对象，其参数是string s
 		}
 
 		F reader;	// 有一个对象reader
