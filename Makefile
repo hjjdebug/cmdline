@@ -37,7 +37,7 @@ MOVE          = mv -f
 TAR           = tar -cf
 COMPRESS      = gzip -9f
 DISTNAME      = cmdline1.0.0
-DISTDIR = /home/hjj/test/cmdline/.tmp/cmdline1.0.0
+DISTDIR = /home/hjj/gitSource/cmdline/.tmp/cmdline1.0.0
 LINK          = g++
 LFLAGS        = -Wl,-rpath,/opt/Qt5.14.0/5.14.0/gcc_64/lib
 LIBS          = $(SUBLIBS) /opt/Qt5.14.0/5.14.0/gcc_64/lib/libQt5Gui.so /opt/Qt5.14.0/5.14.0/gcc_64/lib/libQt5Core.so -lGL -lpthread   
@@ -663,10 +663,10 @@ compiler_clean: compiler_moc_predefs_clean
 ####### Compile
 
 main.o: main.cpp parser.h \
-		cast.h \
 		myexception.h \
-		reader.h \
-		option.h
+		option.h \
+		cast.h \
+		reader.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o main.o main.cpp
 
 ####### Install

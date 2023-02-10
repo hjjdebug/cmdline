@@ -160,28 +160,30 @@ class option_with_value : public option_base 	//带值的选项, 值的类型为
 		T def;
 		T actual;
 };
-
+// 该测试中会生成2种代码,
+//1. <int, range_reader<int> >
+//2. <std::string, default_reader<std::string> >
 template <class T, class F>
 class option_with_value_with_reader : public option_with_value<T> 
 {
-	public: //包含reader 的选项构造
-		option_with_value_with_reader(const std::string &name,
-				char short_name,
-				bool need,
-				const T def,
-				const std::string &desc,
-				F reader)
-			: option_with_value<T>(name, short_name, need, def, desc), reader(reader)
-		{
-		}
+public: //包含reader 的选项构造
+  option_with_value_with_reader(const std::string &name,
+								char short_name,
+								bool need,
+								const T def,
+								const std::string &desc,
+								F reader)
+	: option_with_value<T>(name, short_name, need, def, desc), aReader(reader)
+  {
+  }
 
-	private:
-		T read(const std::string &s)
-		{
-			return reader(s); //返回一个reader 对象，其参数是string s
-		}
+private:
+  T read(const std::string &s)
+  { //这并不是一个函数调用，而是一个对象调用，调用了reader对象的()函数
+	return aReader(s); //返回一个reader 对象，其参数是string s
+  }
 
-		F reader;	// 有一个对象reader
+		F aReader;	// 有一个对象reader
 };
 
 #endif

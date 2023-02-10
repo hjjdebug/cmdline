@@ -4,17 +4,17 @@
 #include <cxxabi.h>
 namespace CAST
 {
-	//模板类is_same结构
+	//模板类is_same<T1,T2>结构,存储一个静态常布尔值false
 	template <typename T1, typename T2>
 		struct is_same {	//is_same 是一个结构
-			static const bool value = false;	//存一个静态常布尔值false
+	  static const bool value = false;// 静态变量是属于类的,常量值不再改变
 		};
-
+  //模板类is_same<T,T>结构，存储一个静态常布尔值true
 	template <typename T>
 		struct is_same<T, T>{
 			static const bool value = true; //两种类型一致,存true
 		};
-	//模板类lexical_cast_t 家族
+	//模板类lexical_cast_t 家族,参数不同,4种类型，好像有点乱！
 	template <typename Target, typename Source, bool Same> //Same 没有使用!
 		class lexical_cast_t{
 			public:
@@ -60,6 +60,7 @@ namespace CAST
 	template<typename Target, typename Source>
 		Target lexical_cast(const Source &arg) //类型转换
 		{
+		  // is_same 返回的是一个对象，::value是对象的值(true,false), lexical_cast_t<>是一个对象，调用其类函数cast
 			return lexical_cast_t<Target, Source, CAST::is_same<Target, Source>::value>::cast(arg); //调用下一个类型的转换函数
 		}
 
@@ -78,8 +79,8 @@ namespace CAST
 			return demangle(typeid(T).name()); //typeid(T).name() 显示了类型名
 		}
 
-	template <> //特化(此处算全特化
-		inline std::string readable_typename<std::string>() //偏特化
+	template <> //特化(此处算函数
+		inline std::string readable_typename<std::string>() 
 		{
 			return "string";
 		}
