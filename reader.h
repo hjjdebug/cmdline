@@ -17,6 +17,8 @@ struct range_reader
 	range_reader(const T &low, const T &high): low(low), high(high) {} //range_reader 的构造函数
 	T operator()(const std::string &s) const {
 		T ret=default_reader<T>()(s);
+//		default_reader<T> a;
+//		T ret = a(s);
 		if (!(ret>=low && ret<=high)) throw cmdline_error("range_error"); //返回T 值或者抛出异常
 		return ret;
 	}
