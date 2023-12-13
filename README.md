@@ -1,6 +1,8 @@
 # cmdline
 std::c++ command line paramter analyse
 
+目的: 以最简单化调用接口为目的，最简化命令行调用接口，并给出用法提示及打印提交的命令行接口
+
 命令行参数分析程序.
   本来原来只有一个头文件cmdline.h, 所有函数都在cmdline 命名空间下，
   但代码不宜阅读.

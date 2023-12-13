@@ -30,4 +30,7 @@
 *.exe
 *.out
 *.app
+
+#others
+TAGS
 cmdline
